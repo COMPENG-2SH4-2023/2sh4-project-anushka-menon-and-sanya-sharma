@@ -1,34 +1,32 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "GameMechs.h"
-#include "objPos.h"
+#include "objPos.h"       // Include necessary headers
+#include "GameMechs.h"    // Include necessary headers
 #include "objPosArrayList.h"
 
-class Player
-{
-    // Construct the remaining declaration from the project manual.
+class objPos;//THIS IS FOR FORWARD HANDLING. DO NOT REMOVE
+class GameMechs; //THIS IS FOR FORWARD HANDLING. DO NOT REMOVE
 
-    // Only some sample members are included here
 
-    // You will include more data members and member functions to complete your design.
+class Player {
+public:
+    enum Dir { UP, DOWN, LEFT, RIGHT, STOP };  // This is the direction state
 
-    public:
-        enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
+    Player(GameMechs* thisGMRef);
+    ~Player();
 
-        Player(GameMechs* thisGMRef);
-        ~Player();
+    void getPlayerPos(objPos &returnPos); // Upgrade this in iteration 3.
+    void updatePlayerDir();
+    void movePlayer();
 
-        void getPlayerPos(objPos &returnPos); // Upgrade this in iteration 3.
-        void updatePlayerDir();
-        void movePlayer();
+private:
+    objPos playerPos;          // Upgrade this in iteration 3.
+    enum Dir myDir;
+    char input;
 
-    private:
-        objPos playerPos;   // Upgrade this in iteration 3.       
-        enum Dir myDir;
-
-        // Need a reference to the Main Game Mechanisms
-        GameMechs* mainGameMechsRef;
+    // Need a reference to the Main Game Mechanisms
+    GameMechs* mainGameMechsRef;
 };
 
-#endif
+#endif // PLAYER_H

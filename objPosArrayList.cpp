@@ -1,4 +1,6 @@
 #include "objPosArrayList.h"
+#include <iostream> // Include necessary headers
+
 
 // Paste your CUTE Tested implementation here.
 // Paste your CUTE Tested implementation here.
@@ -23,7 +25,7 @@ int objPosArrayList::getSize() //returns the size of the list
 }
 
 
-void objPosArrayList::insertHead(objPos thisPos) 
+void objPosArrayList::insertHead(objPos thisPos) //method (insertHead) within a class (objPosArrayList). It inserts an element (thisPos) at the beginning of an array (aList) of objects of type objPos if space is available in the array. It shifts existing elements to accommodate the new element and increments the size of the list. However, it lacks the implementation for resizing the array if it's already full.
 {
     if (sizeList < sizeArray) {
         for (int i = sizeList; i > 0; --i) { // element shift for head
@@ -62,7 +64,7 @@ void objPosArrayList::removeTail() //remove the tail element
     }
 }
 
-void objPosArrayList::getHeadElement(objPos &returnPos) //get the hibjPos element at the head of the list
+void objPosArrayList::getHeadElement(objPos &returnPos) //get the objPos element at the head of the list
 {
     if (sizeList > 0) {
         returnPos = aList[0];

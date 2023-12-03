@@ -1,9 +1,14 @@
 #ifndef OBJPOS_ARRAYLIST_H
 #define OBJPOS_ARRAYLIST_H
 
-#define ARRAY_MAX_CAP 200
-
+#include <iostream>
+#include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
+#include "Player.h"
+#include "SnakeFood.h"
+
+#define ARRAY_MAX_CAP 200
 
 class objPosArrayList
 {
@@ -17,6 +22,7 @@ class objPosArrayList
         ~objPosArrayList();
 
         int getSize();
+        
         void insertHead(objPos thisPos);
         void insertTail(objPos thisPos);
         void removeHead();

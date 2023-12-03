@@ -7,6 +7,10 @@
 #include "objPos.h"
 #include "objPosArrayList.h"
 
+#include "Player.h"
+#include "SnakeFood.h"
+
+
 using namespace std;
 
 
@@ -19,6 +23,7 @@ class GameMechs
     // You will include more data members and member functions to complete your design.
 
     private:
+        objPos foodPos;
         char input;
         bool exitFlag;
 
@@ -31,6 +36,8 @@ class GameMechs
     public:
         GameMechs();
         GameMechs(int boardX, int boardY);
+        ~GameMechs();
+
         
         bool getExitFlagStatus();
         void setExitTrue();

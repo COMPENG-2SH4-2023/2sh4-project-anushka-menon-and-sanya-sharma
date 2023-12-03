@@ -1,5 +1,6 @@
 #ifndef OBJPOS_H
 #define OBJPOS_H
+#include "GameMechs.h"
 
 class objPos
 {
@@ -15,10 +16,10 @@ class objPos
         void setObjPos(objPos o);        
         void setObjPos(int xPos, int yPos, char sym);  
         void getObjPos(objPos &returnPos);
+        
         char getSymbol();
 
         bool isPosEqual(const objPos* refPos);
-        
         char getSymbolIfPosEqual(const objPos* refPos);
 };
 

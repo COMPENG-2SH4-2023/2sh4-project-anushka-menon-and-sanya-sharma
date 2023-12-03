@@ -1,5 +1,6 @@
 #include "objPos.h"
-
+#include "GameMechs.h"
+//We use this methods to access the objPos class and encapsulate the decleration in the header file. ObjPos is used to track and update the characters on the game board
 objPos::objPos()
 {
     x = 0;

@@ -1,5 +1,9 @@
 #include "GameMechs.h"
+#include "objPos.h"
+#include "objPosArrayList.h"
 #include "MacUILib.h"
+#include "SnakeFood.h"
+
 
 GameMechs::GameMechs()
 {
@@ -24,7 +28,10 @@ GameMechs::GameMechs(int boardX, int boardY)
 }
 
 // do you need a destructor?
-
+GameMechs::~GameMechs()
+{
+  //delete[];
+}
 
 
 bool GameMechs::getExitFlagStatus()
