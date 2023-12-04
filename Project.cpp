@@ -1,18 +1,19 @@
-#include <iostream>
-#include "MacUILib.h"
-#include "objPos.h"
-#include "GameMechs.h"
-#include "Player.h"
-#include "SnakeFood.h"
+#include <iostream>    // Input/output stream objects
+#include "MacUILib.h"  // MacUILib header file
+#include "objPos.h"    // Header file for objPos class
+#include "GameMechs.h" // Header file for GameMechs class
+#include "Player.h"    // Header file for Player class
+#include "SnakeFood.h" // Header file for SnakeFood class
 
 using namespace std;
 
-#define DELAY_CONST 100000
+int DELAY_CONST= 70000; // Constant for delay
 
-    GameMechs* myGame;
-    Player* myPlayer;
-    SnakeFood* myFood;
+GameMechs* myGame;   // Pointer to GameMechs object
+Player* myPlayer;  // Pointer to Player object
+SnakeFood* myFood;   // Pointer to SnakeFood object
 
+// Function prototypes
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
@@ -20,86 +21,155 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
+// Main function
+int main()
+{
+    Initialize(); // Initialization of the game
 
-int main() {
-
-    Initialize();
-
-    while (myGame && !myGame->getExitFlagStatus()) {
-        GetInput();
-        RunLogic();
-        DrawScreen();
-        LoopDelay();
+    // Main game loop
+    while (myGame->getExitFlagStatus() == false)
+    {
+        GetInput();   // Get user input
+        RunLogic();   // Execute game logic
+        DrawScreen(); // Render game screen
+        LoopDelay();  // Introduce delay
     }
 
-    CleanUp();
-    
+    CleanUp(); // Cleanup resources
     return 0;
 }
 
-void Initialize(void) {
-    MacUILib_init();
-    MacUILib_clearScreen();
+// Initialize function
+void Initialize(void)
+{
+    MacUILib_init();     // Initialize MacUILib
+    MacUILib_clearScreen(); // Clear the screen
 
-    myGame = new GameMechs(30, 15);
-    myPlayer = new Player(myGame);
+    myGame = new GameMechs(30, 15); // Create GameMechs object
+    myFood = new SnakeFood(myGame);   // Create SnakeFood object with GameMechs reference
+    myPlayer = new Player(myGame, myFood); // Create Player object with GameMechs and SnakeFood references
 
-    myFood = new SnakeFood(myGame);
-    objPos random;
-    myFood->generateFood(random);
+    objPosArrayList* playerPosList = myPlayer->getPlayerPosList(); // Get the player's position list
+    objPos random; // Random object
+
+    myFood->generateFood(playerPosList); // Generate food for the game
 }
 
-void GetInput(void) {
-    myGame->getInput();
+// GetInput function to retrieve user input
+void GetInput(void)
+{
+    myGame->getInput(); // Retrieve user input using GameMechs object
 }
 
-void RunLogic(void) {
-    myPlayer->updatePlayerDir();
-    myPlayer->movePlayer();
-    myGame->clearInput();
+// RunLogic function to execute game logic
+void RunLogic(void)
+{
+    myPlayer->updatePlayerDir(); // Update player's direction based on input
+    myPlayer->movePlayer();      // Move the player
+    myGame->clearInput();          // Clear input for the next iteration
 }
 
-void DrawScreen(void) {
-    MacUILib_clearScreen();
+// DrawScreen function to render the game screen
+void DrawScreen(void)
+{
+    MacUILib_clearScreen(); // Clear the screen
 
-    objPos tempPos;
-    myPlayer->getPlayerPos(tempPos);
+    objPos tempPos; // Temporary position object
+    myPlayer->getPlayerPos(tempPos); // Get player's position
 
-    MacUILib_printf("Board Size: %dx%d, Player Position: <%d, %d> + %c\n", myGM->getBoardSizeX(), 
-    //                                                                       myGM->getBoardSizeY(), 
-    //                                                                       tempPos.x, tempPos.y, tempPos.symbol); 
-    // DrawScreen function
+    objPos foodPos; // Food position object
+    myFood->getFoodPos(foodPos); // Get food position
 
-    for (int i = 0; i < myGame->getBoardSizeY(); i++) {
-        for (int j = 0; j < myGame->getBoardSizeX(); j++) {
-            if (i == 0 || i == myGame->getBoardSizeY() - 1 || j == 0 || j == myGame->getBoardSizeX() - 1) {
-                cout << '#';
-            } else if (j == tempPos.x && i == tempPos.y) {
-                cout << tempPos.symbol;
-            } else {
-                cout << ' ';
+    // Loop to draw the game board and elements
+    for (int i = 0; i < myGame->getBoardSizeY(); i++)
+    {
+        for (int j = 0; j < myGame->getBoardSizeX(); j++)
+        {
+            // Drawing the game board boundaries and player elements
+            if (i == 0 || i == myGame->getBoardSizeY() - 1 || j == 0 || j == myGame->getBoardSizeX() - 1)
+            {
+                printf("%c", '#'); // Draw the boundary
+            }
+            else
+            {
+                objPos playerPos;
+                myPlayer->getPlayerPos(playerPos); // Get player's position
+
+                bool isSnakeSegment = false;
+                objPosArrayList* playerPosList = myPlayer->getPlayerPosList(); // Get player's position list
+                for (int k = 0; k < playerPosList->getSize(); k++)
+                {
+                    objPos snakeSegment;
+                    playerPosList->getElement(snakeSegment, k); // Get snake segments from the list
+
+                    // Draw snake segments
+                    if (snakeSegment.x == j && snakeSegment.y == i)
+                    {
+                        printf("%c", snakeSegment.symbol); // Draw snake segment
+                        isSnakeSegment = true;
+                        break;
+                    }
+                }
+
+                // Draw food or empty space
+                if (!isSnakeSegment && j == foodPos.x && i == foodPos.y)
+                {
+                    printf("%c", foodPos.symbol); // Draw food symbol
+                }
+                else if (!isSnakeSegment)
+                {
+                    printf("%c", ' '); // Draw empty space
+                }
             }
         }
-        cout << endl;
+        printf("\n"); // Move to the next line
     }
 
-    printf("score: %d, player pos: <%d,%d>\n", myGM->getScore(), tempPos.x, tempPos.y);
-
-    objPos foodPos;
-    myFood->getFoodPos(foodPos);
-
-    cout << "food position: <" << foodPos.x << ", " << foodPos.y << "> + " << foodPos.symbol << endl;
+    // Display game information for debugging
+    printf("Your Score: %d\n", myGame->getScore());
+    printf("Board Size 30 x 15\n");
+    printf("Player Position: %d, %d", tempPos.x, tempPos.y);
+    
+    if((myGame->getScore())>-1 && (myGame->getScore())<5){
+        printf("\nLevel 1\n");
+    }
+    else if((myGame->getScore())>5 && (myGame->getScore())<10){
+        printf("\nLevel 2. Higher Speed\n");
+    }
+    else{
+        printf("\nLevel 3. Higher Speed\n");
+    }
 }
 
-void LoopDelay() {
-    MacUILib_Delay(DELAY_CONST); // 0.1s delay
+// LoopDelay function to introduce delay in the game
+void LoopDelay(void)
+{
+    // PPA3 input processing logic
+    if((myGame->getScore())>0 && (myGame->getScore())<5){
+        myGame->incrementGame();
+        MacUILib_Delay(100000); // Introduce delay (0.1 seconds)
+
+    }
+    else if((myGame->getScore())>5 && (myGame->getScore())<10){
+        myGame->incrementGame();
+        MacUILib_Delay(150000); // Introduce delay (0.1 seconds)
+
+
+    }
+    else{
+        myGame->incrementGame();
+        MacUILib_Delay(200000); // Introduce delay (0.1 seconds)
+
+    }
 }
 
-void CleanUp(GameMechs*& myGame, Player*& myPlayer, SnakeFood*& Food) {
-    MacUILib_clearScreen();
-    MacUILib_uninit();
+// CleanUp function to free resources
+void CleanUp(void)
+{
+    MacUILib_clearScreen(); // Clear the screen
+    MacUILib_uninit();      // Uninitialize MacUILib
 
-    delete myGame;
-    delete myPlayer;
-    delete Food;
+    delete myGame;    // Free GameMechs object
+    delete myPlayer; // Free Player object
+    delete myFood;     // Free SnakeFood object
 }

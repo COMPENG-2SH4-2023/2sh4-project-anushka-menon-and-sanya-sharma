@@ -40,6 +40,7 @@ print_ptr MacUILib_printf;
 	void MacUILib_uninit(void)
 	{
 		// No implementation required
+		MacUILib_printf("\nYou ate yourself. Game Over!\n");
 		MacUILib_printf("\nPress Any Key to Shut Down\n");
 		getchar();
 	}

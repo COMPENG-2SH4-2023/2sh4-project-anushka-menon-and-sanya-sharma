@@ -3,59 +3,48 @@
 
 #include <cstdlib>
 #include <time.h>
-
 #include "objPos.h"
 #include "objPosArrayList.h"
 
-#include "Player.h"
-#include "SnakeFood.h"
-
-
 using namespace std;
-
 
 class GameMechs
 {
-    // Construct the remaining declaration from the project manual.
+    // Sample members included; more will be added to complete the design
 
-    // Only some sample members are included here
+private:
+    char input;         // Stores user input
+    bool exitFlag;      // Flag indicating whether the game should exit
+    bool loseFlag;      // Flag indicating whether the game is lost
+    int score;          // Current score of the game
+    int gameLevel;      // Current level of the game
+    int boardSizeX;     // Size of the game board in the X direction
+    int boardSizeY;     // Size of the game board in the Y direction
 
-    // You will include more data members and member functions to complete your design.
+public:
+    // Constructors
+    GameMechs();                            // Default constructor
+    GameMechs(int boardX, int boardY);      // Parameterized constructor
 
-    private:
-        objPos foodPos;
-        char input;
-        bool exitFlag;
+    // Getters and Setters for various game parameters and flags
+    bool getExitFlagStatus();       // Get the status of the exit flag
+    void setExitTrue();             // Set the exit flag to true
 
-        bool loseFlag;
-        int score;
-        
-        int boardSizeX;
-        int boardSizeY;
+    bool getLoseFlagStatus();       // Get the status of the lose flag
+    void setLoseFlag();             // Set the lose flag to true
 
-    public:
-        GameMechs();
-        GameMechs(int boardX, int boardY);
-        ~GameMechs();
+    int getScore();                 // Get the current game score
+    void incrementScore();          // Increment the game score
 
-        
-        bool getExitFlagStatus();
-        void setExitTrue();
+    int getGameLevel();            // Get the current game level
+    void incrementGame();          // Increment the game level
 
-        bool getLoseFlagStatus();
-        void setLoseFlag();
+    char getInput();                // Get user input
+    void setInput(char this_input); // Set user input
+    void clearInput();              // Clear user input
 
-        int getScore();
-        void increamentScore();
-
-        char getInput();
-        void setInput(char this_input);
-        void clearInput();
-
-        int getBoardSizeX();
-        int getBoardSizeY();
-      
-
+    int getBoardSizeX();            // Get the board size in the X direction
+    int getBoardSizeY();            // Get the board size in the Y direction
 };
 
-#endif
+#endif // GAMEMECHS_H

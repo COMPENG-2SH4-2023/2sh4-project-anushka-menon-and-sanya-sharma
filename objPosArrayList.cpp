@@ -1,88 +1,92 @@
 #include "objPosArrayList.h"
-#include <iostream> // Include necessary headers
-
 
 // Paste your CUTE Tested implementation here.
 // Paste your CUTE Tested implementation here.
 // Paste your CUTE Tested implementation here.
 
-objPosArrayList::objPosArrayList(){ //array list constructor 
-    
-    sizeList = 0;
-    sizeArray = ARRAY_MAX_CAP;
-    aList = new objPos[sizeArray];
-}
-
-
-objPosArrayList::~objPosArrayList()  //array list destructor 
+// Default constructor for objPosArrayList
+objPosArrayList::objPosArrayList() 
 {
-    delete[] aList;
+    sizeList = 0;               // Initialize the size of the list to 0
+    sizeArray = ARRAY_MAX_CAP;  // Set the maximum capacity of the array list
+    aList = new objPos[sizeArray];  // Allocate memory for the array list
 }
 
-int objPosArrayList::getSize() //returns the size of the list 
+// Destructor for objPosArrayList
+objPosArrayList::~objPosArrayList() 
 {
-    return sizeList;
+    delete[] aList;  // Deallocate memory used by the array list
 }
 
+// Get the current size of the array list
+int objPosArrayList::getSize() 
+{
+    return sizeList;  // Return the current size of the list
+}
 
-void objPosArrayList::insertHead(objPos thisPos) //method (insertHead) within a class (objPosArrayList). It inserts an element (thisPos) at the beginning of an array (aList) of objects of type objPos if space is available in the array. It shifts existing elements to accommodate the new element and increments the size of the list. However, it lacks the implementation for resizing the array if it's already full.
+// Insert an element at the head of the array list
+void objPosArrayList::insertHead(objPos thisPos) 
 {
     if (sizeList < sizeArray) {
-        for (int i = sizeList; i > 0; --i) { // element shift for head
+        for (int i = sizeList; i > 0; --i) { // Shift elements to make space for the new element at the head
             aList[i] = aList[i - 1];
         }
-        aList[0] = thisPos;
-        ++sizeList;
+        aList[0] = thisPos; // Insert the new element at the head
+        ++sizeList; // Increment the size of the list
     }
-    // case where the array is full, and resizing is needed
+    // Additional handling for cases where the array is full and resizing is needed could be added here
 }
 
-void objPosArrayList::insertTail(objPos thisPos){// inserting thisPos as a new objPos element to the tail of the list 
-    
+// Insert an element at the tail of the array list
+void objPosArrayList::insertTail(objPos thisPos) 
+{
     if (sizeList < sizeArray) {
-            aList[sizeList] = thisPos;
-            ++sizeList;
-        }
-        // case where the array is full, and resizing is needed
-
+        aList[sizeList] = thisPos; // Insert the new element at the tail
+        ++sizeList; // Increment the size of the list
+    }
+    // Additional handling for cases where the array is full and resizing is needed could be added here
 }
 
-void objPosArrayList::removeHead()  //remove the head from the element from the list 
+// Remove the element at the head of the array list
+void objPosArrayList::removeHead() 
 {
     if (sizeList > 0) {
-        for (int i = 0; i < sizeList - 1; ++i) {
+        for (int i = 0; i < sizeList - 1; ++i) { // Shift elements to remove the element at the head
             aList[i] = aList[i + 1];
         }
-        --sizeList;
+        --sizeList; // Decrement the size of the list
     }
 }
 
-void objPosArrayList::removeTail() //remove the tail element 
+// Remove the element at the tail of the array list
+void objPosArrayList::removeTail() 
 {
     if (sizeList > 0) {
-        --sizeList;
+        --sizeList; // Decrement the size of the list
     }
 }
 
-void objPosArrayList::getHeadElement(objPos &returnPos) //get the objPos element at the head of the list
+// Get the element at the head of the array list
+void objPosArrayList::getHeadElement(objPos &returnPos) 
 {
     if (sizeList > 0) {
-        returnPos = aList[0];
+        returnPos = aList[0]; // Get the element at the head
     }
 }
 
-void objPosArrayList::getTailElement(objPos &returnPos) //get the objPos element at the tail of the list
+// Get the element at the tail of the array list
+void objPosArrayList::getTailElement(objPos &returnPos) 
 {
     if (sizeList > 0) {
-        returnPos = aList[sizeList - 1];
+        returnPos = aList[sizeList - 1]; // Get the element at the tail
     }
 }
 
-void objPosArrayList::getElement(objPos &returnPos, int index) //get the nth objpos element from the list, where n is specified by the index 
+// Get the element at a specific index in the array list
+void objPosArrayList::getElement(objPos &returnPos, int index) 
 {
     if (index >= 0 && index < sizeList) {
-        returnPos = aList[index];
+        returnPos = aList[index]; // Get the element at the specified index
     }
-    // case where the index is out of bounds
+    // Additional handling for cases where the index is out of bounds could be added here
 }
-

@@ -1,26 +1,28 @@
 #ifndef OBJPOS_H
 #define OBJPOS_H
-#include "GameMechs.h"
 
 class objPos
 {
-    public:
-        int x;
-        int y;
-        char symbol;
+public:
+    int x;          // X-coordinate of the object position
+    int y;          // Y-coordinate of the object position
+    char symbol;    // Symbol representing the object
 
-        objPos();
-        objPos(objPos &o); // copy constructor
-        objPos(int xPos, int yPos, char sym);
+    // Constructors
+    objPos();                                   // Default constructor
+    objPos(objPos &o);                          // Copy constructor
+    objPos(int xPos, int yPos, char sym);       // Parameterized constructor
 
-        void setObjPos(objPos o);        
-        void setObjPos(int xPos, int yPos, char sym);  
-        void getObjPos(objPos &returnPos);
-        
-        char getSymbol();
+    // Methods to set and get object position and symbol
+    void setObjPos(objPos o);                   // Set object position and symbol using another object
+    void setObjPos(int xPos, int yPos, char sym);// Set object position and symbol using individual values
+    void getObjPos(objPos &returnPos);          // Get object position
 
-        bool isPosEqual(const objPos* refPos);
-        char getSymbolIfPosEqual(const objPos* refPos);
+    char getSymbol();                           // Get the symbol of the object
+
+    // Methods to compare object positions and symbols
+    bool isPosEqual(objPos* refPos);            // Check if positions are equal
+    char getSymbolIfPosEqual(objPos* refPos);   // Get symbol if positions are equal
 };
 
-#endif
+#endif // OBJPOS_H
