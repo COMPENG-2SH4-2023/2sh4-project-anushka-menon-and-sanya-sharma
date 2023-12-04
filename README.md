@@ -10,3 +10,5 @@ Section: [L01 and L08]
 MacID: [shars172 and menona18]
 
 StudentID: [4000455262 and 400465619]
+
+Game description: 
